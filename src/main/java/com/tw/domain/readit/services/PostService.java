@@ -1,7 +1,7 @@
-package com.tw.domain.services;
+package com.tw.domain.readit.services;
 
-import com.tw.domain.repositories.InvalidPostException;
-import com.tw.domain.repositories.Post;
+import com.tw.domain.readit.dTo.Post;
+import com.tw.domain.readit.model.InvalidPostException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -9,19 +9,18 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
-public class PostsManager {
+public class PostService {
     private final Map<Integer, Post> posts;
     private int currentPostId = 0;
-    private int id;
 
-    public PostsManager() {
+    public PostService() {
         this.posts = new HashMap<>();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        PostsManager that = (PostsManager) o;
+        PostService that = (PostService) o;
         return Objects.equals(posts, that.posts);
     }
 
@@ -30,8 +29,7 @@ public class PostsManager {
         return Objects.hashCode(posts);
     }
 
-    public int addPost(String author, String title, String date, String content) {
-        Post post = new Post(author, title, date, content);
+    public int addPost(Post post) {
         int id = currentPostId;
         posts.put(id, post);
         currentPostId++;
@@ -39,7 +37,6 @@ public class PostsManager {
     }
 
     public int removePost(int id) {
-        this.id = id;
         Post post = posts.get(id);
         if(post == null) {
             throw new InvalidPostException("Post must not be NULL");

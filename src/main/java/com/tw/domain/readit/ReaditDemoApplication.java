@@ -1,4 +1,4 @@
-package com.example.readit_demo;
+package com.tw.domain.readit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
