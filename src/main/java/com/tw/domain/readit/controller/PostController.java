@@ -5,7 +5,7 @@ import com.tw.domain.readit.dTo.Post;import com.tw.domain.readit.services.PostSe
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;import org.springframework.web.bind.annotation.RequestBody;import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/posts")
@@ -24,6 +24,9 @@ public class PostController {
         return ResponseEntity.ok(id);
     }
 
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Integer> createPost(@PathVariable int id) {
+        logger.info("/posts delete request");
+        return ResponseEntity.ok(postService.removePost(id));
+    }
 }

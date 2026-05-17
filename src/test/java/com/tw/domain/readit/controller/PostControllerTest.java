@@ -18,12 +18,27 @@ public class PostControllerTest {
 
     @Test
     void shouldAddThePost() {
-        PostController postController = new PostController(new PostService());
-
         Post post = new Post("praveen", "title", "12-12-2022", "content");
         client.post()
                 .uri("/posts")
                 .body(post)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Integer.class)
+                .isEqualTo(0);
+    }
+
+    @Test
+    void shouldRemovesThePostFromExistingPosts() {
+        Post post = new Post("praveen", "title", "12-12-2022", "content");
+        client.post()
+                .uri("/posts")
+                .body(post)
+                .exchange()
+                .expectStatus().isOk();
+
+        client.delete()
+                .uri("/posts/0")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Integer.class)
