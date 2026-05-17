@@ -17,6 +17,12 @@ public class PostsManagerTest {
         PostsManager postsManager = new PostsManager();
         int id = postsManager.addPost("praveen", "title", "12-12-2022", "content");
         assertEquals(0,id);
+    }
 
+    @Test
+    void shouldRemovePostIfPostExist() {
+        PostsManager postsManager = new PostsManager();
+        int id = postsManager.addPost("praveen", "title", "12-12-2022", "content");
+        assertEquals(id, postsManager.removePost(id));
     }
 }

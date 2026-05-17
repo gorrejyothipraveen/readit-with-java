@@ -1,5 +1,6 @@
 package com.tw.domain.services;
 
+import com.tw.domain.repositories.InvalidPostException;
 import com.tw.domain.repositories.Post;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class PostsManager {
     private final Map<Integer, Post> posts;
     private int currentPostId = 0;
+    private int id;
 
     public PostsManager() {
         this.posts = new HashMap<>();
@@ -33,6 +35,17 @@ public class PostsManager {
         int id = currentPostId;
         posts.put(id, post);
         currentPostId++;
+        return id;
+    }
+
+    public int removePost(int id) {
+        this.id = id;
+        Post post = posts.get(id);
+        if(post == null) {
+            throw new InvalidPostException("Post must not be NULL");
+        }
+
+        posts.remove(id);
         return id;
     }
 }
