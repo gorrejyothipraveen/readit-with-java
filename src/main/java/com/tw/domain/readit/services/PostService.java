@@ -1,10 +1,12 @@
 package com.tw.domain.readit.services;
 
 import com.tw.domain.readit.dTo.Post;
+import com.tw.domain.readit.dTo.PostResponse;
 import com.tw.domain.readit.model.InvalidPostException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,6 +32,9 @@ public class PostService {
     }
 
     public int addPost(Post post) {
+        if(post.title() == null || post.title().isEmpty()) {
+            throw new InvalidPostException("Invalid Post Title");
+        }
         int id = currentPostId;
         posts.put(id, post);
         currentPostId++;
@@ -44,5 +49,17 @@ public class PostService {
 
         posts.remove(id);
         return id;
+    }
+
+    public List<PostResponse> getPosts() {
+        return posts.entrySet()
+                .stream()
+                .map(e ->
+                        new PostResponse(e.getKey(),
+                        e.getValue().author(),
+                        e.getValue().title(),
+                        e.getValue().date(),
+                        e.getValue().content()))
+                .toList();
     }
 }
